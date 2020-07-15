@@ -10,11 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
-  @Autowired private DemoService demoService;
+    @Autowired
+    private DemoService demoService;
 
-  @GetMapping(value = {"/", "index"})
-  public Response<String> index() {
-    demoService.insert();
-    return Response.of(Code.SUCCESS);
-  }
+    @GetMapping(value = {"/", "index"})
+    public Response<String> index() {
+        demoService.insert();
+        return Response.of(Code.SUCCESS);
+    }
+
+    @GetMapping(value = "/success2")
+    public Response<String> success2() {
+        demoService.insert2();
+        return Response.of(Code.SUCCESS);
+    }
 }

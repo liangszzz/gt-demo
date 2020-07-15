@@ -1,4 +1,32 @@
-# 基于ZK的分布式事务demo
+#### 基于ZK的分布式事务demo
+
+### 准备
+
+三个不同的spring-boot 服务service-a,service-b,service-c
+
+三个服务分别连的数据库 是gta,gtb,gtc
+
+每个服务的功能是向表table_a,table_b,table_c插入一条数据
+
+#### 目标
+
+service-a调用 service-b ,然后service-a调用service-c
+
+service-a调用 service-b,然后service-b调用service-c
+
+- 要保证,服务没有抛出异常的情况下,三张表的数据全部插入成功
+- 要保证,三个服务有抛出异常的情况下,三张表的数据全部插入失败
+
+#### 效果
+
+- service-a   --------->    service-b  service-a   --------->    service-c 
+  - 调用接口:   http://localhost:8090/success1 
+- service-a   --------->    service-b   ---------> service-c 
+  - 调用接口:   http://localhost:8090/success2
+- service-a  --------->    service-b    service-a   --------->    service-c     执行后service-a抛出异常
+  - 调用接口:   http://localhost:8090/fail1
+- service-a  --------->    service-b    service-a   --------->    service-c    service-c  抛出异常
+  - 调用接口:   http://localhost:8090/fail2
 
 #### 原理
 
@@ -22,13 +50,13 @@
 
 10. 各个分支在检测到事务组节点的数据 变更为 COMMIT或者ROLLBACK时 调用connection.commit() 或 connection.rollback
 
-#### 待优化
+#### TODO
 
 1. 事务commit前抛出异常,本节点立即回滚,其他节点不再执行
 
 2. 解析简单的SQL语句,写入redolog,commit失败后可以回滚
 
-#### 实现
+#### 代码
 
 ####  https://github.com/yiyan1992/gt-demo
 

@@ -13,31 +13,57 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class DemoService {
 
-  @Autowired private RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
-  @Autowired private TableADao tableADao;
+    @Autowired
+    private TableADao tableADao;
 
-  @GlobalTransaction(start = true)
-  @Transactional
-  public void insert() {
+    @GlobalTransaction(start = true)
+    @Transactional
+    public void insert() {
 
-    String response = restTemplate.getForObject("http://localhost:8091/", String.class);
-    log.info(response);
+        String response = restTemplate.getForObject("http://localhost:8091/", String.class);
+        log.info(response);
+        String response2 = restTemplate.getForObject("http://localhost:8092/", String.class);
+        log.info(response2);
 
-    TableA a = new TableA();
-    a.setF1("t1");
-    tableADao.save(a);
-  }
+        TableA a = new TableA();
+        a.setF1("ta");
+        tableADao.save(a);
 
-  @GlobalTransaction(start = true)
-  @Transactional
-  public void insertFail() {
-    String response = restTemplate.getForObject("http://localhost:8091/", String.class);
-    log.info(response);
+    }
 
-    TableA a = new TableA();
-    a.setF1("t1");
-    tableADao.save(a);
-    throw new RuntimeException("test rollback");
-  }
+    @GlobalTransaction(start = true)
+    public void insert2() {
+        String response = restTemplate.getForObject("http://localhost:8091/success2", String.class);
+        log.info(response);
+
+        TableA a = new TableA();
+        a.setF1("ta");
+        tableADao.save(a);
+    }
+
+    @GlobalTransaction(start = true)
+    @Transactional
+    public void insert3() {
+        String response = restTemplate.getForObject("http://localhost:8091/", String.class);
+        log.info(response);
+        String response2 = restTemplate.getForObject("http://localhost:8092/", String.class);
+        log.info(response2);
+        throw new RuntimeException("test rollback1");
+    }
+
+    @GlobalTransaction(start = true)
+    @Transactional
+    public void insert4() {
+
+        String response = restTemplate.getForObject("http://localhost:8091/", String.class);
+        log.info(response);
+        String response2 = restTemplate.getForObject("http://localhost:8092/fail2", String.class);
+        log.info(response2);
+        TableA a = new TableA();
+        a.setF1("ta");
+        tableADao.save(a);
+    }
 }

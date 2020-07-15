@@ -1,5 +1,6 @@
 package com.ls.demo.gt.common.config;
 
+import com.ls.demo.gt.common.util.TransactionConstant;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.RetryNTimes;
