@@ -1,5 +1,31 @@
 #### 基于ZK的分布式事务demo
 
+### 理论
+
+CAP
+
+C(一致性), 数据一致更新，所有数据变动都是同步的
+
+A(可用性), 好的响应性能（指系统能够很好的为用户服务，访问超时等用户体验不好的情况）
+
+P(分区容忍性) 可靠性（遇到某节点或网络分区故障时，仍然能够对外提供满足一致性和可用性的服务。）
+
+BASE
+
+BASE思想主要强调基本的可用性，如果你需要High 可用性，也就是纯粹的高性能，那么就要以一致性或容忍性为牺牲，BASE思想的方案在性能上还是有潜力可挖的。、
+
+### 常见方案
+
+- 两阶段提交 2PC
+- 基于可靠消息服务的分布式事务
+- 最大努力通知（定期校对）
+- TCC(try-commit-cancel)
+
+### 公司事务
+
+- tx-lcn(https://github.com/codingapi/tx-lcn)
+- seata(https://github.com/seata/seata)
+
 ### 准备
 
 三个不同的spring-boot 服务service-a,service-b,service-c
